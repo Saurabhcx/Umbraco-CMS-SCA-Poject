@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Saurabhcx/Umbraco-CMS-SCA-Poject.git',
+                    branch: 'saurabh-test-branch',
+                    credentialsId: 'New-Github-credential'
+            }
+        }
+        
+        stage('SCA Scan - Checkmarx One') {
+            steps {
+             checkmarxASTScanner additionalOptions: '--debug', branchName: 'saurabh-test-branch', checkmarxInstallation: 'Test-IND', credentialsId: '', projectName: 'Saurabhcx/Umbraco-CMS-SCA-jenkins', serverUrl: 'https://ind.ast.checkmarx.net/', tenantName: 'cx_ind_internal_test'
+            }
+        }
+    }
+}
